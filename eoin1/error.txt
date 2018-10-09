@@ -1,0 +1,102 @@
+1.使用诸如a += b形式连接字符串效率低下，尤其在一个循环内部使用这种形式。这会导致大量的内存开销和拷贝。
+应该使用一个字符数组代替字符串，将字符串内容写入一个缓存中。 例如以下的代码示例：
+
+var b bytes.Buffer
+...
+for condition {
+    b.WriteString(str) // 将字符串str写入缓存buffer
+}
+    return b.String()
+注意：由于编译优化和依赖于使用缓存操作的字符串大小，当循环次数大于15时，效率才会更佳。
+2.如果你在一个for循环内部处理一系列文件，你需要使用defer确保文件在处理完毕后被关闭，例如：
+
+  for _, file := range files {
+      if f, err = os.Open(file); err != nil {
+          return
+      }
+      // 这是错误的方式，当循环结束时文件没有关闭
+      defer f.Close()
+      // 对文件进行操作
+      f.Process(data)
+  }
+  但是在循环结尾处的defer没有执行，所以文件一直没有关闭！垃圾回收机制可能会自动关闭文件，但是这会产生一个错误，更好的做法是：
+
+  for _, file := range files {
+      if f, err = os.Open(file); err != nil {
+          return
+      }
+      // 对文件进行操作
+      f.Process(data)
+      // 关闭文件
+      f.Close()
+   }
+  defer仅在函数返回时才会执行，在循环的结尾或其他一些有限范围的代码内不会执行。
+3.- 切片、映射和通道，使用make
+  - 数组、结构体和所有的值类型，使用new
+ 4.我们已经知道，切片实际是一个指向潜在数组的指针。我们常常需要把切片作为一个参数传递给函数是因为：
+ 实际就是传递一个指向变量的指针，在函数内可以改变这个变量，而不是传递数据的拷贝。
+
+   因此应该这样做：
+
+       `func findBiggest( listOfNumbers []int ) int {}`
+   而不是：
+
+      `func findBiggest( listOfNumbers *[]int ) int {}`
+   当切片作为参数传递时，切记不要解引用切片。
+   5.永远不要使用一个指针指向一个接口类型，因为它(接口)已经是一个指针。
+   在学习本书第二部分和第三部分时，我们经常在一个表达式返回2个参数时使用这种模式：，ok，第一个参数是一个值或者nil，第二个参数是true/false或者一个错误error。在一个需要赋值的if条件语句中，使用这种模式去检测第二个参数值会让代码显得优雅简洁。这种模式在go语言编码规范中非常重要。下面总结了所有使用这种模式的例子：
+
+   （1）在函数返回时检测错误（参考第5.2小节）:
+
+   value, err := pack1.Func1(param1)
+
+   if err != nil {
+       fmt.Printf(“Error %s in pack1.Func1 with parameter %v”, err.Error(), param1)
+       return err
+   }
+
+   // 函数Func1没有错误:
+   Process(value)
+
+   e.g.: os.Open(file) strconv.Atoi(str)
+   这段代码中的函数将错误返回给它的调用者，当函数执行成功时，返回的错误是nil，所以使用这种写法：
+
+   func SomeFunc() error {
+       …
+       if value, err := pack1.Func1(param1); err != nil {
+           …
+           return err
+       }
+       …
+       return nil
+   }
+   这种模式也常用于通过defer使程序从panic中恢复执行（参考第17.2（4）小节）。
+
+   要实现简洁的错误检测代码，更好的方式是使用闭包，参考第16.10.2小节
+
+   （2）检测映射中是否存在一个键值（参考第8.2小节）：key1在映射map1中是否有值？
+
+   if value, isPresent = map1[key1]; isPresent {
+           Process(value)
+   }
+   // key1不存在
+   …
+   （3）检测一个接口类型变量varI是否包含了类型T：类型断言（参考第11.3小节）：
+
+   if value, ok := varI.(T); ok {
+       Process(value)
+   }
+   // 接口类型varI没有包含类型T
+   （4）检测一个通道ch是否关闭（参考第14.3小节）：
+
+       for input := range ch {
+           Process(input)
+       }
+   或者:
+
+       for {
+           if input, open := <-ch; !open {
+               break // 通道是关闭的
+           }
+           Process(input)
+       }

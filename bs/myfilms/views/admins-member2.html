@@ -1,0 +1,98 @@
+{{template "base/base.html" .}}
+{{define "head"}}
+<title>{{i18n .Lang "welcome"}} - {{i18n .Lang "app_intro"}}</title>
+<style type="text/css">
+    #su {
+        background-color: #458B00;
+        width: 350px;
+    }
+    body {
+        background:url("/static/img/t2.jpg");
+        background-size: auto;
+        background-position:center;
+    }
+</style>
+{{end}}
+{{define "body"}}
+
+<p></p>
+<ul class="nav nav-pills nav-justified">
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            管理员Home <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/admins-function1">管理员个人信息</a></li>
+            <li><a href="/admins-function2">修改基本信息</a></li>
+            <li><a href="/admins-function3">修改密码</a></li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            影片管理 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/admins-movie1">浏览影片</a></li>
+            <li><a href="/admins-movie2">添加影片</a></li>
+            <li><a href="/admins-movie3">修改影片</a></li>
+            <li><a href="/admins-movie4">删除影片</a></li>
+        </ul>
+    </li>
+    <li class="dropdown active">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            会员管理 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/admins-member1">浏览会员</a></li>
+            <li><a href="#">删除会员</a></li>
+        </ul>
+    </li>
+    <div style="border-color: seagreen;border-width: 2px;border-style: solid;width: 150px;height: 200px;padding:5px;float: left">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>管理员：{{ .admins.AdminNickName}}</span><br><br>
+        <a href="/admins/exit">
+            <span style="color:rebeccapurple;font-size: 12px;position: relative;left: 30px">退出登录</span>
+        </a>
+    </div>
+    <div style="float: left">
+        <table class="table">
+            <caption>会员信息</caption>
+            <thead>
+            <tr>
+                <th>账号</th>
+                <th>Email</th>
+                <th>昵称</th>
+                <th>实名</th>
+                <th>手机号码</th>
+                <th>性别</th>
+                <th>总消费金额</th>
+                <th>余额</th>
+                <th>等级</th>
+                <th>资料是否有效</th>
+                <th>最后一次更新时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{range $value := .list}}
+            <tr class="active">
+                <td>{{ $value.LoginName}}</td>
+                <td>{{ $value.Email}}</td>
+                <td>{{ $value.Nickname}}</td>
+                <td>{{ $value.Name}}</td>
+                <td>{{ $value.Mobile}}</td>
+                <td>{{ $value.Sex}}</td>
+                <td>{{ $value.Spent}}</td>
+                <td>{{ $value.Balance}}</td>
+                <td>{{ $value.Memlv}}</td>
+                <td>{{ $value.Available}}</td>
+                <td>{{ $value.Latest}}</td>
+                <td><a href="/admins-member2/delCus?LoginName={{ $value.LoginName}}">删除</a></td>
+            </tr>
+            {{end}}
+
+
+            </tbody>
+        </table>
+    </div>
+</ul>
+
+{{end}}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    var sock = null;
+    var wsuri = "ws://127.0.0.1:4001";
+    window.onload = function () {
+        console.log("onload");
+        sock = new WebSocket(wsuri);
+        sock.onopen = function () {
+            console.log("connected to " + wsuri);
+        }
+        sock.onclose = function (e) {
+            console.log("connected to closed(" + e.code + ")");
+        }
+        sock.onmessage  = function (e) {
+            console.log("message received:"+e.data);//在f12后再console查看
+           document.getElementById("message").value="message received:"+e.data;
+//button在form里默认成type="submit" 了,后面的赋值会一闪而过
+            //alert("message received:"+e.data)
+        }
+    };
+    function send() {
+        var msg=document.getElementById('message').value;
+        sock.send(msg);
+
+    }
+
+</script>
+
+<h1> test</h1>
+<form >
+    <p>
+        message:<input id="message" type="text" >
+    </p>
+  <button type="button" onclick="send()";>send</button>
+</form>
+</body>
+</html>

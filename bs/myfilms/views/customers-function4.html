@@ -1,0 +1,108 @@
+{{template "base/base.html" .}}
+{{define "head"}}
+<title>{{i18n .Lang "welcome"}} - {{i18n .Lang "app_intro"}}</title>
+<style type="text/css">
+    #d1 {
+        position: absolute;
+        left: 20%;
+        top: 25%;
+        width: 48%;
+        height: 60%;
+    }
+    body {
+        background:url("/static/img/t10.jpg");
+        background-size:auto;
+
+        background-position:center;
+    }
+</style>
+{{end}}
+{{define "body"}}
+
+<p></p>
+<ul class="nav nav-pills nav-justified">
+    <li class="dropdown active">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            Home <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/customers-function1">个人信息</a></li>
+            <li><a href="/customers-function2">修改基本信息</a></li>
+            <li><a href="/customers-function3">修改密码</a></li>
+            <li><a href="/#">账户金额充值</a></li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            影片排行榜 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/customers-ranking1">热度</a></li>
+            <li><a href="/customers-ranking2">新片</a></li>
+
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            影票 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/customers-ranking1">影票查询</a></li>
+            <li><a href="/customers-ranking1">影票购买</a></li>
+            <li><a href="/customers-order-look1">影票评分</a></li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            订单 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/customers-order-look1">订单查询</a></li>
+            <li><a href="/customers-order-look1">退票</a></li>
+        </ul>
+    </li>
+    <div style="border-color: seagreen;border-width: 2px;border-style: solid;width: 180px;height: 200px;padding:10px">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: yellow">当前用户：{{ .customers.Nickname}}</span><br><br>
+        <a href="/customers/exit">
+            <span style="color:rebeccapurple;font-size: 12px;position: relative;left: 30px" >退出登录</span>
+        </a>
+    </div>
+</ul>
+
+
+<div class="col-md-5" id="d1">
+    <form id="pwdForm" action="/customers-function4/check" method="post">
+        <div class="box box-solid">
+            <input type="hidden" name="Id" value="{{.m.Id}}">
+            <div class="box-header with-border">
+                <h3 class="box-title">账户充值</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="form-group">
+                    <label>余额</label>
+                    <input type="text" name="balance" class="form-control" readonly="true " placeholder=""
+                           value="{{ .customers.Balance}}" style="border:2px solid #47a447;background:rgba(0, 0, 0, 0);">
+                </div>
+                <div class="form-group">
+                    <label>充值金额</label>
+                    <input type="text" name="addBalance" class="form-control" placeholder="" style="border:2px solid #369;background:rgba(0, 0, 0, 0);">
+                </div>
+                <div class="form-group">
+                    <label>输入登录密码</label>
+                    <input type="password" id="NewUserPwd" name="pwd" class="form-control" placeholder="" style="border:2px solid #31b0d5;background:rgba(0, 0, 0, 0);">
+                </div>
+            </div>
+            <div class="box-footer align-right">
+                <button type="submit" class="btn btn-primary">保 存</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{{end}}

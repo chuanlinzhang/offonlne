@@ -1,0 +1,84 @@
+{{template "base/base.html" .}}
+{{define "head"}}
+<title>{{i18n .Lang "welcome"}} - {{i18n .Lang "app_intro"}}</title>
+<style type="text/css">
+    #su {
+        background-color: #458B00;
+        width: 350px;
+    }
+    body {
+        background:url("/static/img/t1.jpg");
+        background-size: auto;
+        background-position:center;
+    }
+</style>
+{{end}}
+{{define "body"}}
+
+<div class="container" style="width: 550px;">
+    <h3>{{i18n .Lang "registertitle"}}</h3><br/>
+    <form action="/admins/register/check" method="post" class="form-horizontal">
+        <div class="form-group has-success">
+            <label class="col-sm-2 control-label" for="inputSuccess">管理员登陆账号</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputSuccess" name="admin_login">
+            </div>
+        </div>
+
+        <div class="form-group has-success">
+            <label class="col-sm-2 control-label" for="inputSuccess">管理员登陆密码</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="inputSuccess" name="admin_pwd1">
+            </div>
+        </div>
+
+        <div class="form-group has-success">
+            <label class="col-sm-2 control-label" for="inputSuccess">确认密码</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="inputSuccess" name="admin_pwd2">
+            </div>
+        </div>
+
+        <div class="form-group has-success">
+            <label class="col-sm-2 control-label" for="inputSuccess">管理员Email</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputSuccess" name="admin_email">
+            </div>
+        </div>
+
+        <div class="form-group has-success">
+            <label class="col-sm-2 control-label" for="inputSuccess">管理员昵称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputSuccess" name="admin_nickname">
+            </div>
+        </div>
+
+        <div class="form-group has-success">
+            <label class="col-sm-2 control-label" for="inputSuccess">管理员会员实名</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputSuccess" name="admin_name">
+            </div>
+        </div>
+
+        <div class="form-group has-success">
+            <label class="col-sm-2 control-label" for="inputSuccess">管理员手机号码</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputSuccess" name="admin_mobile">
+            </div>
+        </div>
+
+        <div class="form-group has-success">
+            <label class="col-sm-2 control-label" for="inputSuccess">管理员性别</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputSuccess" name="admin_sex">
+            </div>
+        </div>
+
+        <div class="form-group has-success">
+            <div class="col-sm-offset-3 col-sm-10">
+                <button type="submit" class="btn btn-info" id="su">{{i18n .Lang "register"}}</button>
+            </div>
+        </div>
+    </form>
+</div>
+{{end}}

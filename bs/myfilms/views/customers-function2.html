@@ -1,0 +1,179 @@
+{{template "base/base.html" .}}
+{{define "head"}}
+<title>{{i18n .Lang "welcome"}} - {{i18n .Lang "app_intro"}}</title>
+<style type="text/css">
+    #d1{
+        position: absolute;
+        left:18%;
+        top:20%;
+        width: 98%;
+        height: 90%;
+    }
+    body {
+        background:url("/static/img/t7.jpg");
+        background-size:auto;
+
+        background-position:center;
+    }
+</style>
+{{end}}
+{{define "body"}}
+
+<p></p>
+<ul class="nav nav-pills nav-justified">
+    <li class="dropdown active">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            Home <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/customers-function1">个人信息</a></li>
+            <li><a href="#">修改基本信息</a></li>
+            <li><a href="/customers-function3">修改密码</a></li>
+            <li><a href="/customers-function4">账户金额充值</a></li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            影片排行榜 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/customers-ranking1">热度</a></li>
+            <li><a href="/customers-ranking2">新片</a></li>
+
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            影票 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/customers-ranking1">影票查询</a></li>
+            <li><a href="/customers-ranking1">影票购买</a></li>
+            <li><a href="/customers-order-look1">影票评分</a></li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            订单 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/customers-order-look1">订单查询</a></li>
+            <li><a href="/customers-order-look1">退票</a></li>
+        </ul>
+    </li>
+    <div style="border-color: seagreen;border-width: 2px;border-style: solid;width: 180px;height: 200px;padding:10px">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: darkorange">当前用户：{{ .customers.Nickname}}</span><br><br>
+        <a href="/customers/exit">
+            <span style="color:rebeccapurple;font-size: 12px;position: relative;left: 30px" >退出登录</span>
+        </a>
+    </div>
+</ul>
+
+
+
+
+<!-- Main content -->
+<div id="d1">
+
+    <section class="content container-fluid">
+        <!-- 页面内容开始 -->
+        <div class="row">
+            <div class="col-md-7">
+                <form id="thisForm" action="/customers-function2/check" method="post">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">修改基本信息</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <input type="hidden" name="Id" value="{{.m.Id}}">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>账号</label>
+                                                <input type="text" name="cname" class="form-control" readonly="true " placeholder="长度不超过24" value="{{ .customers.LoginName}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Email</label>
+                                                <input type="text" name="cemail" class="form-control" placeholder="长度不超过16" value="{{ .customers.Email}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>昵称</label>
+                                                <input type="text" name="nick_name" class="form-control" placeholder="" value="{{ .customers.Nickname}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>会员实名</label>
+                                                <input type="text" name="name" class="form-control" placeholder="" value="{{ .customers.Name }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>手机号码</label>
+                                                <input type="text" name="mobile" class="form-control" placeholder="" value="{{ .customers.Mobile}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>性别</label>
+                                                <input type="text" name="sex" class="form-control" placeholder="" value="{{ .customers.Sex }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>总消费金额</label>
+                                                <input type="text" name="Mobile" class="form-control" readonly="true " placeholder="" value="{{.customers.Spent}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>余额</label>
+                                                <input type="text" name="Email" class="form-control" readonly="true " placeholder="" value="{{ .customers.Balance}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>会员等级</label>
+                                                <input type="text" name="Mobile" class="form-control" readonly="true " placeholder="" value="{{ .customers.Memlv}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>最后一次更新时间</label>
+                                                <input type="text" name="Email" class="form-control" readonly="true " placeholder="" value="{{ .customers.Latest}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer align-right">
+                            <button type="submit" class="btn btn-primary">保 存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+{{end}}

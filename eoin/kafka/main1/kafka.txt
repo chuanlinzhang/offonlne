@@ -1,0 +1,79 @@
+sarama选项
+config结构体
+实例:
+
+config := sarama.NewConfig()
+1
+配置包括消费者,生产者,客户端等配置,需要用到哪个指定配置哪个即可.
+
+c.Net.MaxOpenRequests = 5
+c.Net.DialTimeout = 30 * time.Second
+c.Net.ReadTimeout = 30 * time.Second
+c.Net.WriteTimeout = 30 * time.Second
+c.Net.SASL.Handshake = true
+
+c.Metadata.Retry.Max = 3
+c.Metadata.Retry.Backoff = 250 * time.Millisecond
+c.Metadata.RefreshFrequency = 10 * time.Minute
+c.Metadata.Full = true
+
+c.Producer.MaxMessageBytes = 1000000
+c.Producer.RequiredAcks = WaitForLocal
+c.Producer.Timeout = 10 * time.Second
+c.Producer.Partitioner = NewHashPartitioner  //选择分区的分区选择器.用于选择主题的分区
+c.Producer.Retry.Max = 3 //重试次数
+c.Producer.Retry.Backoff = 100 * time.Millisecond
+c.Producer.Return.Errors = true  //是否接收返回的错误消息,当发生错误时会放到Error这个通道中.从它里面获取错误消息
+
+//抓取数据的大小设置
+c.Consumer.Fetch.Min = 1
+c.Consumer.Fetch.Default = 32768
+
+c.Consumer.Retry.Backoff = 2 * time.Second //失败后再次尝试的间隔时间
+c.Consumer.MaxWaitTime = 250 * time.Millisecond  //最大等待时间
+c.Consumer.MaxProcessingTime = 100 * time.Millisecond
+c.Consumer.Return.Errors = false  //是否接收返回的错误消息,当发生错误时会放到Error这个通道中.从它里面获取错误消息
+c.Consumer.Offsets.CommitInterval = 1 * time.Second // 提交跟新Offset的频率
+c.Consumer.Offsets.Initial = OffsetNewest // 指定Offset,也就是从哪里获取消息,默认时从主题的开始获取.
+
+c.ClientID = defaultClientID
+c.ChannelBufferSize = 256  //通道缓存大小
+c.Version = minVersion //指定kafka版本,不指定,使用最小版本,高版本的新功能可能无法正常使用.
+c.MetricRegistry = metrics.NewRegistry()
+
+生产者的分区的分割器
+分区选择在多个分区存在的情况下,决定将消息发送到哪个分区.
+
+sarama有多个分割器:
+sarama.NewManualPartitioner() //返回一个手动选择分区的分割器,也就是获取msg中指定的`partition`
+sarama.NewRandomPartitioner() //通过随机函数随机获取一个分区号
+sarama.NewRoundRobinPartitioner() //环形选择,也就是在所有分区中循环选择一个
+sarama.NewHashPartitioner() //通过msg中的key生成hash值,选择分区,
+
+生产者的消息ProducerMessage
+Topic string // kafka 主题
+Key Encoder //用于选择分区,和分割器的NewHashPartitioner联合使用,决定当前消息被保存在哪个分区
+Value Encoder  //消息的内容.
+
+Headers []RecordHeader //在生产者和消费者之间传递的键值对,
+
+Metadata interface{} //sarama 用于传递数据使用
+
+//下面的内容有生产者返回后的内容填充.
+Offset int64 // 返回新发布的消息的偏移量
+Partition int32 //返回的信息的保存分区
+Timestamp time.Time //保存在服务端的消息时间
+
+retries int
+flags   flagSet
+消费者信息ConsumerMessage
+// ConsumerMessage encapsulates a Kafka message returned by the consumer.
+type ConsumerMessage struct {
+    Key, Value     []byte  //key和保存的值
+    Topic          string //要消费的主题
+    Partition      int32 //要消费的分区
+    Offset         int64 //要消费的消息的位置,从哪里开始消费,最开始的,还是最后的
+    Timestamp      time.Time       // only set if kafka is version 0.10+, 内部时间
+    BlockTimestamp time.Time       // only set if kafka is version 0.10+, outer (compressed) block timestamp
+    Headers        []*RecordHeader // only set if kafka is version 0.11+
+}

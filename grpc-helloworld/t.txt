@@ -1,0 +1,2 @@
+在helloworld.proto所在目录执行protoc --go_out=plugins=grpc:. helloworld.proto
+生成pb.go文件

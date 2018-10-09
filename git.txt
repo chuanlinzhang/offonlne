@@ -1,0 +1,136 @@
+远程库的账号为eoinzhang     谷歌邮箱  eoinzhangcl@gmail.com   yao224466    qq邮箱第三方登陆授权码zjvuwigwunurhfad   禅道密码etek147258    企业版 eoinZhang 
+这是OA系统登录界面，登录账号为英文名+姓，密码为123456  gitlab 账号eoinzhang Yao224466
+
+我再说一下我们的环境部署情况：
+可以参考这个页面里的servers & services：
+http://52.201.253.90:8000/ops      
+vesync 平台用户密码：dev   dev@Vesync   本地jenkins eoinzhang eoinzhang%123
+
+要运维做事情的邮箱：ops@etekcity.com.cn
+克隆myapp项目：
+1.现在github中建立项目
+2.进入目录：XD@XD-ZJ-96 MINGW64 /d/goWork/src (master)
+  执行：git clone git@github.com:eoinzhang/myapp.git把项目对应的ssh，克隆远程库到本地
+（如果想克隆远程仓库的其他分支用在使用上面的clone之后git checkout origin/develop -b develop）
+：每个项目重新操作
+
+*推送自己部分文件到gitlab，master
+1.git clone http://fangcun.vesync.com:8081/timhuang/VeSyncDocuments.git
+2.进入到自己要操作的文件夹中，添加自己需要添加的文件到某个文件夹
+3.git add myfile
+4.git commit -m “”
+5.git push origin master
+后面更新时，进入到自己要操作的文件夹中，添加自己需要添加的文件到某个文件夹，git pull，345。
+
+
+
+
+更新项目order：
+1.进去项目目录XD@XD-ZJ-96 MINGW64 /d/goWork/src/order (master)
+2. git init//初始化版本库
+Reinitialized existing Git repository in D:/goWork/src/myapp/.git/
+3. git add .// 添加文件到版本库（只是添加到缓存区），.代表添加文件夹下所有文件
+4. git commit -m "first commit" // 把添加的文件提交到版本库，并填写提交备注
+5.git remote add origin git@github.com:eoinzhang/order.git
+  // 把本地库与远程库关联
+
+6.git push -u origin master    // 第一次推送时
+
+7.git push origin master  // 第一次推送后，直接使用该命令即可推送修改
+
+
+1.安装git
+2.$ git config --global user.name "Your Name"
+ $ git config --global user.email "email@example.com"
+3.$ ssh-keygen -t rsa -C "youremail@example.com"
+第2步：登陆GitHub，打开“Account settings”，“SSH Keys”页面：
+
+然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容：
+
+：：： git remote remove origin 删除远程库
+
+
+
+gitlab
+
+Create a new repository
+
+git clone http://fangcun.vesync.com:8081/new/Authentication.git
+cd Authentication
+touch README.md
+git add README.md
+git commit -m "add README"
+git push -u origin master
+
+Existing folder
+
+cd existing_folder
+git init
+git remote add origin http://fangcun.vesync.com:8081/new/Authentication.git
+git add .
+git commit -m "Initial commit"
+git push -u origin master《------》$ git push -u origin master:eoin1
+
+
+
+/***********************************/
+在ubuntu上面安装mysql，在windows 用go语言操作
+常见命令：
+
+service mysql start # 启动mysql
+service mysql stop # 关闭mysql
+
+
+虚拟机密码YAo224466
+步骤：centos7:mysql:root,password
+1.sudo apt-get install mysql-server 安装mysql数据库，中途会输入数据库root用户的密码
+2.sudo netstat -tap | grep mysql 安装好后，查看是否安装成功
+3.mysql -u root -p   然后输入密码//password
+4.sudo vim /etc/mysql/conf.d/mysql.cnf  目的，可以插入中文
+[client]
+default-character-set=utf8
+[mysqld]
+character-set-server=utf8
+[mysql]
+default-character-set=utf8
+5.修改数据库的字符集
+    mysql>use mydb
+    mysql>alter database mydb character set utf-8;
+创建数据库指定数据库的字符集
+    mysql>create database mydb character set utf-8;
+6.service mysql restart  重启
+但是原有的数据库还是不能插入中文，因为它们的编码格式仍然不是utf8. 
+我将测试的数据库删除后重建了…
+
+
+8.ubuntu的防火墙，需要在ubuntu的云服务器上 ，添加一个安装组规则就是允许3306端口
+可以访问
+
+9.也是把本地连接注释
+sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf
+注释掉bind-address = 127.0.0.1：
+
+10.就是mysql数据库内部不允许外部远程连接
+解决：进入mysql(这里是里面的一个数据库之一)
+mysql> use mysql;
+mysql> show tables;
+mysql> select user, host from user;
+updata user set host="%" where user="root";
+flush privileges;
+
+
+#####args ...int可变参数，args...逐个传入可变参数
+
+
+可以参考这个页面里的servers & services：
+http://52.201.253.90:8000/ops      
+用户密码：dev   dev@Vesync
+
+1. 本地测试环境：我们有两台服务器，部署了虚拟机，除非一定需要外部连接到该应用，否则我们就在本地进行测试
+2. 在线/联调环境：在AWS上部署，需要和app、固件联调，或者像ifttt那样需要第三方来调用我们
+
+这边需要部署环境，给我讲就行
+
+[临时gopath设置]
+export GOPATH=$GOPATH:/root/dev/go/gowork/src/UserService/wuserver
+注意:在哪里需要运行go程序就在那个目录设置

@@ -1,0 +1,177 @@
+{{template "base/base.html" .}}
+{{define "head"}}
+<title>{{i18n .Lang "welcome"}} - {{i18n .Lang "app_intro"}}</title>
+<style type="text/css">
+    #d1{
+        position: absolute;
+        left:18%;
+        top:20%;
+        width: 98%;
+        height: 90%;
+    }
+    body {
+        background:url("/static/img/t1.jpg");
+        background-size: auto;
+        background-position:center;
+    }
+</style>
+{{end}}
+{{define "body"}}
+
+<p></p>
+<ul class="nav nav-pills nav-justified">
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            管理员Home <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/admins-function1">管理员个人信息</a></li>
+            <li><a href="/admins-function2">修改基本信息</a></li>
+            <li><a href="/admins-function3">修改密码</a></li>
+        </ul>
+    </li>
+    <li class="dropdown active">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            影片管理 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/admins-movie1">浏览影片</a></li>
+            <li><a href="#">添加影片</a></li>
+            <li><a href="/admins-movie3">修改影片</a></li>
+            <li><a href="/admins-movie4">删除影片</a></li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            会员管理 <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="/admins-member1">浏览会员</a></li>
+            <li><a href="/admins-member2">删除会员</a></li>
+        </ul>
+    </li>
+    <div style="border-color: seagreen;border-width: 2px;border-style: solid;width: 180px;height: 200px;padding:10px;float: left">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>管理员：{{ .admins.AdminNickName}}</span><br><br>
+        <a href="/admins/exit">
+            <span style="color:rebeccapurple;font-size: 12px;position: relative;left: 30px" >退出登录</span>
+        </a>
+    </div>
+    <div id="d1">
+
+        <section class="content container-fluid">
+            <!-- 页面内容开始 -->
+            <div class="row">
+                <div class="col-md-7">
+                    <form id="thisForm" action="/admins-movie2/check" method="post">
+                        <div class="box box-solid">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">添加影片</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <input type="hidden" name="Id" value="{{.m.Id}}">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>影片编号</label>
+                                                    <input type="text" name="filmsNo" class="form-control"  readonly="true " placeholder="长度不超过10" value="{{ .sum}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>中文片名</label>
+                                                    <input type="text" name="nameCh" class="form-control" placeholder="长度不超过16">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>英文片名</label>
+                                                    <input type="text" name="nameEn" class="form-control" placeholder="" >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>导演</label>
+                                                    <input type="text" name="director" class="form-control" placeholder="" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>热度</label>
+                                                    <input type="text" name="hot" class="form-control" placeholder="最高热度为10分" >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>新片</label>
+                                                    <input type="text" name="new" class="form-control" placeholder="最新片为10分" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>主演</label>
+                                                    <input type="text" name="actor" class="form-control" placeholder="" >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>片长</label>
+                                                    <input type="text" name="filmLength" class="form-control" placeholder="分钟" >
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>全票价</label>
+                                                    <input type="text" name="Pricefull" class="form-control" placeholder="元" >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>学生票价</label>
+                                                    <input type="text" name="Pricest" class="form-control" placeholder="元" >
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>影片简介</label>
+                                                    <textarea rows="3" cols="50" name="Intro" ></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-footer align-right">
+                                <button type="submit" class="btn btn-primary">保 存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</ul>
+
+
+添加影片
+{{end}}
